@@ -1,3 +1,4 @@
+// Get all of the tool
 const request = require('request');
 const fs = require('fs');
 const token = require('./secret');
@@ -15,7 +16,27 @@ const getRepoContributors = (repoOwner, repoName, callback) => {
   });
 };
 
-getRepoContributors('jquery', 'jquery', (err, result) => {
-  console.log('Errors:', err);
-  console.log('Result:', result);
-});
+const downloadImageByURL = (url, filePath) => {
+  request(url, { json: true }, (err, res) => {
+    if (err) throw err;
+    console.log('Response Status Code:', res.statusCode);
+    fs.mkdir('../avatar', { recursive: true }, err => {
+      if (err) throw err;
+      fs.createWriteStream(filePath).on('finished', () => {
+        console.log('Download completed...');
+      });
+    });
+  });
+};
+
+downloadImageByURL(
+  'https://avatars2.githubusercontent.com/u/2741?v=3&s=466',
+  '../avatars/kvirani.jpg'
+);
+
+// getRepoContributors('jquery', 'jquery', (err, result) => {
+//   if (err) throw err;
+//   result.forEach(user => {
+//     console.log(user.avatar_url);
+//   });
+// });
