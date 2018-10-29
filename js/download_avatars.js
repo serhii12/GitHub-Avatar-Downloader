@@ -3,6 +3,8 @@ const request = require('request');
 const fs = require('fs');
 
 const args = process.argv.slice(2);
+const owner = args[0];
+const name = args[1];
 const token = require('./secret');
 
 const getRepoContributors = (repoOwner, repoName, callback) => {
@@ -34,9 +36,13 @@ const downloadImageByURL = (url, filePath) => {
     });
 };
 
-getRepoContributors('jquery', 'jquery', (err, result) => {
-  if (err) throw err;
-  result.forEach(user =>
-    downloadImageByURL(user.avatar_url, `../avatar/${user.login}.jpg`)
-  );
-});
+if (args.length === 2) {
+  getRepoContributors(owner, name, (err, result) => {
+    if (err) throw err;
+    result.forEach(user =>
+      downloadImageByURL(user.avatar_url, `../avatar/${user.login}.jpg`)
+    );
+  });
+} else {
+  console.log('Please provide arguments as follow: 1)<repoOwner> 2)<repoName>');
+}
