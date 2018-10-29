@@ -8,6 +8,26 @@ const owner = args[0];
 const name = args[1];
 const token = process.env.GITHUB_TOKEN;
 
+// Check env file
+// the .env file is missing
+// the .env file is missing information
+// the .env file contains incorrect credentials
+const checkValidToken = receivedToken => {
+  if (!receivedToken) {
+    throw new Error('No env variable with the name GITHUB_TOKEN was specified');
+  }
+  if (/[^a-f0-9]{40}/gi.test(receivedToken)) {
+    throw new Error('Invalid github token provided');
+  }
+};
+
+// the provided owner/repo does not exist
+const checkIfOwnerAndRepoExist = msg => {
+  if (msg === 'Not Found') {
+    throw new Error('owner/repo does not exist');
+  }
+};
+
 const getRepoContributors = (repoOwner, repoName, callback) => {
   const options = {
     url: `https://api.github.com/repos/${repoOwner}/${repoName}/contributors`,
