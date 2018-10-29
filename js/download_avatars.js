@@ -1,11 +1,12 @@
 // Get all of the tools
+require('dotenv').config();
 const request = require('request');
 const fs = require('fs');
 
 const args = process.argv.slice(2);
 const owner = args[0];
 const name = args[1];
-const token = require('./secret');
+const token = process.env.GITHUB_TOKEN;
 
 const getRepoContributors = (repoOwner, repoName, callback) => {
   const options = {
