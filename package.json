@@ -13,6 +13,7 @@
   "author": "Serhii Panchyshyn",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^6.1.0",
     "request": "^2.88.0"
   }
 }
